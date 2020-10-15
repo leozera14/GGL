@@ -43,10 +43,8 @@ module.exports = {
           dtacadastro: dtaAtual
         })
       } catch (error) {
-        console.log(error)
+        return res.status(400).json({error: `${error}`});
       }
-
-      
       return res.status(200).json(data.nomerazao); 
     } else {
       return res.status(400).json({error: 'CPF / CNPJ já cadastrado.'});
@@ -80,8 +78,9 @@ module.exports = {
         {
           expiresIn: "24h"
         })
-        return res.status(200).json({id_pessoa: pessoaLogin.id_pessoa, cpfcnpj: pessoaLogin.cpfcnpj,
-          nomerazao: pessoaLogin.nomerazao, fisicajuridica: pessoaLogin.fisicajuridica, token});
+        return res.status(200).json({id_pessoa: pessoaLogin.id_pessoa, 
+          cpfcnpj: pessoaLogin.cpfcnpj, nomerazao: pessoaLogin.nomerazao, 
+          fisicajuridica: pessoaLogin.fisicajuridica, token});
       }
 
       return res.status(400).send('Falha na autenticação');

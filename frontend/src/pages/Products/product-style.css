@@ -1,0 +1,59 @@
+.container {
+  width: 100%;
+}
+
+.inventorie tbody {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  line-height: 3vh;
+}
+
+.inventorie tbody tr {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.content-list {
+  position: relative;
+}
+
+.inventorie-button {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0px;
+  justify-content: space-around;
+}
+
+.inventorie-button button {
+  font-size: 20px;
+  border: none;
+  transition: opacity 0.2s;
+}
+
+.inventorie-button button svg {
+  color: red !important;
+  background-color: none !important;
+}
+
+
+.inventorie-button button:hover {
+  opacity: 0.8;
+}
+
+.inventorie-button tr td {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.separator {
+  height: 2px;
+  background-color: rgba(0, 0, 0, .2);
+  margin: 10px 0;
+  position: relative;
+}

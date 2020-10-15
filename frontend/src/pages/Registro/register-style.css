@@ -30,3 +30,9 @@ body, html {
 .ativo {
   background: black;
 }
+
+.botao-submit {
+  width: 200px;
+  background: #e02041;
+  color: white;
+}

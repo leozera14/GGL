@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css'; 
 import { FiPower } from 'react-icons/fi';
 
 import './styles.css';
 
-export default function Profile() {
+export default function ProfileJuridica() {
   const history = useHistory(); 
 
   const idPessoa = localStorage.getItem('idPessoa');
@@ -23,9 +25,12 @@ export default function Profile() {
         <FiPower size={18} color="#E02041" />
       </button>
 
-      <Link to="/products">Ver produtos cadastrados</Link>
-      <Link to="/products/new">Cadastrar novos produtos</Link>
 
+      <Link to="/products">Produtos cadastrados</Link>
+                                    <br/>
+      <Link to="/products/new">Cadastrar novos produtos</Link>
+      
+      <ToastContainer />
     </div>
   )
 }

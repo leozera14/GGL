@@ -3,11 +3,11 @@ import axios from 'axios';
 
 export function useFetch(url) {
   const { data, error, mutate } = useSWR(url, async url => {
-    const response = await axios.get(url);
+    const response = await axios.get(`http://localhost:3333/${url}`);
 
     return response.data;
   }, {
-    refreshInterval: 1000,
+    refreshInterval: 1500,
     refreshWhenHidden: true
   })
 

@@ -176,20 +176,20 @@ export default function Registro() {
           {errors.cep && <span>Preencha o campo</span>}
 
           <input
-            name="ddd"
+            name="foneddd"
             placeholder="Insira o DDD"
             ref={register({ max: 2 })}
           />
           {errors.ddd && <span>Preencha o campo</span>}
 
           <input
-            name="telefone" 
+            name="fonenro" 
             placeholder="Insira seu telefone"
             ref={register({ max: 10 })}
           />
           {errors.telefone && <span>Preencha o campo</span>}
 
-          <input type="submit" value={"Cadastrar"}></input>
+          <input type="submit" className="botao-submit" value={"Cadastrar"}></input>
         </form>}
       </>
     );

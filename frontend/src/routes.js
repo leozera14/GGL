@@ -4,7 +4,9 @@ import { isAuthenticated } from './Auth';
 
 import Home from './pages/Home/Home';
 import Register from './pages/Registro/Registro';
-import Profile from './pages/Profile/Profile';
+import ProfileJuridica from './pages/ProfileJuridica/ProfileJuridica';
+import ProfileFisica from './pages/ProfileFisica/ProfileFisica';
+import Products from './pages/Products/Products';
 import NewProducts from './pages/NewProducts/NewProducts';
 
 const PrivateRoute = ({ component: Component, ...rest }) =>(
@@ -23,8 +25,10 @@ export default function Routes() {
             <Switch>
                 <Route exact path='/' component={Home} />
                 <Route path='/register' component={Register} />
-                <PrivateRoute path='/profile' component={Profile} />
-                <PrivateRoute path='/products/new' component={NewProducts} />
+                <PrivateRoute path='/profile/j' component={ProfileJuridica} />
+                <PrivateRoute path='/profile/f' component={ProfileFisica} />
+                <PrivateRoute exact path='/products' component={Products} />
+                <PrivateRoute exact path='/products/new' component={NewProducts} />
             </Switch>
         </BrowserRouter>
     );

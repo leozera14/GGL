@@ -22,8 +22,10 @@ export default function Logon() {
                             localStorage.setItem('nomerazao', response.data.nomerazao);
                             toast.success("Cadastro encontrado, redirecionando...");
                             setTimeout(() =>{
-                                history.push('/profile');   
-                            }, 1250);
+                                response.data.fisicajuridica === "J"
+                                ? history.push('/profile/j')
+                                : history.push('profile/f')   
+                            }, 1500);
                         }
                     })
             } catch (err) {
