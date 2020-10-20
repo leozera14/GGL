@@ -28,7 +28,7 @@ export default function Routes() {
                 <PrivateRoute path='/profile/j' component={ProfileJuridica} />
                 <PrivateRoute path='/profile/f' component={ProfileFisica} />
                 <PrivateRoute exact path='/products' component={Products} />
-                <PrivateRoute exact path='/products/new' component={NewProducts} />
+                <PrivateRoute exact path='/products/neworedit' component={NewProducts} />
             </Switch>
         </BrowserRouter>
     );

@@ -26,7 +26,29 @@ export default function Products() {
   }
 
   async function editProduct(id_produto) {
+    try {
+      await api.get(`/products?id_produto=${id_produto}`, {
+        headers: {
+          Authorization: idPessoa
+        }
+      }).then(function(response) {
+        const data = response.data[0];
 
+        localStorage.setItem('id_produto', data.id_produto);     
+        localStorage.setItem('nome_produto', data.nome_produto);     
+        localStorage.setItem('descricao_produto', data.descricao_produto);     
+        localStorage.setItem('imagem_produto', data.imagem_produto);     
+        localStorage.setItem('preco_produto', data.preco_produto);     
+        localStorage.setItem('quantidade_produto', data.quantidade_produto);     
+        localStorage.setItem('status_produto', data.status_produto);   
+        toast.success("Redirecionando a pagina de edição...");
+        setTimeout(() => {
+          history.push('/products/neworedit')
+        }, 1500)
+      })
+    } catch (error) {
+      console.log(`${error}`)
+    }
   }
 
   async function deleteProduct(id_produto) {
@@ -38,7 +60,7 @@ export default function Products() {
           }
       }).then(function(response) {
         if(response.status === 200) {
-          toast.success(`${response.data[0].nome_produto} foi excluido com sucesso.`)
+          toast.success(`${response.data[0].nome_produto} foi excluido com sucesso.`);
         }
       });
     } catch (err) {
@@ -100,7 +122,7 @@ export default function Products() {
                             </tr>
 
                             <tr>      
-                                <td>{product.id_pessoa}</td>
+                                <td>{product.id_produto}</td>
                             </tr>
 
                             <tr>             
@@ -150,7 +172,7 @@ export default function Products() {
       </button>
 
       <Link to="/profile/j">Retornar a Home</Link> <br/>
-      <Link to="/products/new">Cadastrar novos produtos</Link>
+      <Link to="/products/neworedit">Cadastrar novos produtos</Link>
       <ToastContainer />
     </div>
   )

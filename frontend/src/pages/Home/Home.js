@@ -20,11 +20,14 @@ export default function Logon() {
                             localStorage.setItem('token', response.data.token);
                             localStorage.setItem('idPessoa', response.data.id_pessoa);
                             localStorage.setItem('nomerazao', response.data.nomerazao);
+                            localStorage.setItem('cidade', response.data.cidade);   
+                            localStorage.setItem('uf', response.data.uf);   
                             toast.success("Cadastro encontrado, redirecionando...");
                             setTimeout(() =>{
                                 response.data.fisicajuridica === "J"
                                 ? history.push('/profile/j')
-                                : history.push('profile/f')   
+                                : history.push('profile/f')
+                                
                             }, 1500);
                         }
                     })

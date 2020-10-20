@@ -4,11 +4,27 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
-  async index(req, res) {
-    const pessoa = await knexPg('pessoa').select('*');
+  async indexStore(req, res) {
+    let where = {}
+    for (const [key, value] of Object.entries(req.query)) {
+      where[key] = value
+    }
 
-    return res.status(200).json(pessoa);
+    try {
+      const store = await knexPg('pessoa')
+      .whereRaw('LOWER(cidade) LIKE ?', '%'+where.cidade.toLowerCase()+'%', 'and LOWER(uf) LIKE ?',
+      '%'+where.uf.toLowerCase()+'%')
+      .where('status', 'A')
+      .andWhere('fisicajuridica', 'J')
+      .select('*')
+      .orderBy('nomerazao')
 
+      return res.status(200).json({ nomerazao: store[0].nomerazao, endereco: store[0].endereco, 
+        nroendereco: store[0].nroendereco, bairro: store[0].bairro, foneddd: store[0].foneddd, 
+        fonenro: store[0].fonenro, email: store[0].email });
+    } catch (error) {
+      return res.status(400).json({ message: `${error}`})
+    }
   },
 
   async registro (req, res) {
@@ -80,7 +96,8 @@ module.exports = {
         })
         return res.status(200).json({id_pessoa: pessoaLogin.id_pessoa, 
           cpfcnpj: pessoaLogin.cpfcnpj, nomerazao: pessoaLogin.nomerazao, 
-          fisicajuridica: pessoaLogin.fisicajuridica, token});
+          fisicajuridica: pessoaLogin.fisicajuridica, cidade: pessoaLogin.cidade,
+          uf: pessoaLogin.uf, token});
       }
 
       return res.status(400).send('Falha na autenticação');

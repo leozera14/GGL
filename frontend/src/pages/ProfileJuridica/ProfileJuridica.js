@@ -28,7 +28,7 @@ export default function ProfileJuridica() {
 
       <Link to="/products">Produtos cadastrados</Link>
                                     <br/>
-      <Link to="/products/new">Cadastrar novos produtos</Link>
+      <Link to="/products/neworedit">Cadastrar novos produtos</Link>
       
       <ToastContainer />
     </div>
