@@ -21,6 +21,12 @@
   position: relative;
 }
 
+.content-list tr img {
+  width: 96px;
+  height: 96px;
+  border-radius: 5px;
+}
+
 .inventorie-button {
   display: flex;
   align-items: center;

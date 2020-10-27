@@ -15,7 +15,7 @@ export default function Products() {
 
   const idPessoa = localStorage.getItem('idPessoa');
 
-  const { data, error } = useFetch(produtos ? `products?id_pessoa=${idPessoa}` : null);
+  const { data, error } = useFetch(produtos ? `products?id_pessoa=${idPessoa}` : null);  
 
   if(!data) {
     return <p>Carregando...</p>
@@ -114,11 +114,11 @@ export default function Products() {
                     </tbody>
                     
                 {data.map(product => (
-                    <div>
+                    <div key={product.id_produto}>
                         <div className="separator"></div>
-                        <tbody className="content-list" key={product.id_produto}>
+                        <tbody className="content-list">
                             <tr>      
-                                <td>{product.imagem_produto}</td>
+                                <img src={product.imagem_produto} alt=""/>
                             </tr>
 
                             <tr>      

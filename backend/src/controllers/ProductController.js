@@ -1,4 +1,8 @@
 const knexPg = require('../database/postgres');
+const knex = require('knex')
+const multer = require('multer');
+const multerConfig = require('../multer');
+const fs = require('fs');
 
 module.exports = {
   async Products(req, res) {
@@ -14,7 +18,19 @@ module.exports = {
       .where(where)
       .orderBy('nome_produto')
 
-      return res.status(200).json(data)
+      const dados = data.map(d => {
+        return {
+        id_produto: d.id_produto,
+        nome_produto: d.nome_produto,
+        descricao_produto: d.descricao_produto,
+        imagem_produto: `http://localhost:3333/uploads/${d.imagem_produto}`,
+        preco_produto: d.preco_produto,
+        quantidade_produto: d.quantidade_produto,
+        status_produto: d.status_produto,
+        }
+      })
+
+      return res.status(200).json(dados)
     } catch (error) {
       return res.status(400).json({ message: `${error}`})
     }
@@ -24,6 +40,14 @@ module.exports = {
   async newProducts(req, res) {
     const data = req.body;
     const idPessoa = req.headers.authorization;
+    let image = null;
+
+    if(typeof req.file === 'undefined') {
+      image = 'no-image.png'
+    } else { 
+      image = req.file.filename;
+    }
+
 
     const verify = await knexPg('produtos')
         .whereRaw('LOWER(nome_produto) LIKE ?', '%'+data.nome_produto.toLowerCase()+'%');
@@ -33,7 +57,7 @@ module.exports = {
         await knexPg('produtos').insert({
           id_pessoa: idPessoa,
           nome_produto: data.nome_produto,
-          imagem_produto: "",
+          imagem_produto: image,
           descricao_produto: data.descricao_produto,
           quantidade_produto: data.quantidade_produto || 0,
           preco_produto: data.preco_produto,
@@ -88,7 +112,7 @@ module.exports = {
       .andWhere('id_produto', id_produto)
       
 
-    if(verify.length >= 0) {
+    if(verify.length > 0) {
       try {
         await knexPg('produtos').update({
           nome_produto: data.nome_produto,

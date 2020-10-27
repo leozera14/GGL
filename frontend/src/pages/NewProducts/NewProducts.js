@@ -4,12 +4,14 @@ import { useForm }  from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css'; 
 import api from '../../services/api';
-import { FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft, FiPlus } from 'react-icons/fi';
+
 
 import './styles.css';
 
 export default function NewProducts() {
   const [tipo, setTipo] = useState('');
+  const [image, setImage] = useState('');
 
   const history = useHistory();
 
@@ -36,12 +38,24 @@ export default function NewProducts() {
       defaultValues: {
         nome_produto: nome_produto || "",
         descricao_produto: descricao_produto || "",
-        imagem_produto: imagem_produto || "",
+        imagem_produto: imagem_produto || [],
         preco_produto: preco_produto || "",
         quantidade_produto: quantidade_produto || "",
         status_produto: status_produto || ""
       }
     });
+
+    function handleSelectImage(e){
+      if(!e.target.files) {
+        return ;
+      }
+
+      const selectedImages = e.target.files[0];
+
+      const selectedImagesPreview = URL.createObjectURL(selectedImages); 
+
+      setImage(selectedImagesPreview);
+    }
 
 
     async function clearStorage() {
@@ -56,8 +70,16 @@ export default function NewProducts() {
 
 
     async function handleEditProduct(data) {
+      const dados = new FormData();
+      
+      dados.append('nome_produto', data.nome_produto);
+      dados.append('descricao_produto', data.descricao_produto);
+      dados.append('imagem_produto', data.imagem_produto[0]);
+      dados.append('preco_produto', String(data.preco_produto));
+      dados.append('quantidade_produto', String(data.quantidade_produto));
+
       try {
-        await api.put(`/products?id_produto=${id_produto}`, data, {
+        await api.put(`/products?id_produto=${id_produto}`, dados, {
           headers: {
             Authorization: idPessoa
           }
@@ -79,12 +101,19 @@ export default function NewProducts() {
 
 
     async function handleCreateProduct(data) {
+      const dados = new FormData();
+      
+      dados.append('nome_produto', data.nome_produto);
+      dados.append('descricao_produto', data.descricao_produto);
+      dados.append('imagem_produto', data.imagem_produto[0]);
+      dados.append('preco_produto', String(data.preco_produto));
+      dados.append('quantidade_produto', String(data.quantidade_produto));
       
       try {
-        await api.post('/products/new', data, {
+        await api.post('/products/new', dados, {
                 headers: {
                   Authorization: idPessoa
-                }
+                },
         })
             .then(function(response){ 
                 if(response.status === 200) {
@@ -96,6 +125,7 @@ export default function NewProducts() {
         if(err.response.status === 400) {
           toast.error(err.response.data.error);
         }
+        console.log(err.response.data.error)
       }
     }
 
@@ -123,12 +153,27 @@ export default function NewProducts() {
                   ref={register({ required: true})}
               />
               
-              <label htmlFor="imagem_produto">Imagem:</label>
-              <input 
-                  type="file"
-                  name="imagem_produto"
-                  ref={register({ required: false})}
-              />
+              {/* <div className="images-container">
+                <label>Foto:</label>
+                
+                <div className="wrap-images">
+                  {image.length > 0
+                  ?<img src={image} alt=''/>
+                  : null}
+                  
+
+                  <label htmlFor="imagem_produto" className="new-image">
+                    <FiPlus size={24} color="#45b6d6"/>
+                  </label>
+                  </div>
+                  <input 
+                        type="file"
+                        name="imagem_produto"
+                        id="imagem_produto"
+                        ref={register({ required: true})}
+                        onChange={handleSelectImage}
+                    />                
+              </div> */}
 
               <label htmlFor="descricao_produto">Descrição:</label>
               <textarea 
@@ -184,19 +229,34 @@ export default function NewProducts() {
 
           </section>
           
-          <form  onSubmit={handleSubmit(handleCreateProduct)}>
+          <form enctype="multipart/form-data" onSubmit={handleSubmit(handleCreateProduct)}>
               <input 
                   name="nome_produto"
                   placeholder="Nome do Produto"
                   ref={register({ required: true})}
               />
               
-              <label htmlFor="imagem_produto">Imagem:</label>
-              <input 
-                  type="file"
-                  name="imagem_produto"
-                  ref={register({ required: false})}
-              />
+              <div className="images-container">
+                <label>Foto:</label>
+                
+                <div className="wrap-images">
+                  {image.length > 0
+                  ?<img src={image} alt=''/>
+                  : null}
+                  
+
+                  <label htmlFor="imagem_produto" className="new-image">
+                    <FiPlus size={24} color="#45b6d6"/>
+                  </label>
+                </div>
+                <input 
+                      type="file"
+                      name="imagem_produto"
+                      id="imagem_produto"
+                      ref={register({ required: true})}
+                      onChange={handleSelectImage}
+                  />                
+              </div>
 
               <textarea 
                   name="descricao_produto"

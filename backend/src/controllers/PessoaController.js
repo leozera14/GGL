@@ -4,29 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
-  async indexStore(req, res) {
-    let where = {}
-    for (const [key, value] of Object.entries(req.query)) {
-      where[key] = value
-    }
-
-    try {
-      const store = await knexPg('pessoa')
-      .whereRaw('LOWER(cidade) LIKE ?', '%'+where.cidade.toLowerCase()+'%', 'and LOWER(uf) LIKE ?',
-      '%'+where.uf.toLowerCase()+'%')
-      .where('status', 'A')
-      .andWhere('fisicajuridica', 'J')
-      .select('*')
-      .orderBy('nomerazao')
-
-      return res.status(200).json({ nomerazao: store[0].nomerazao, endereco: store[0].endereco, 
-        nroendereco: store[0].nroendereco, bairro: store[0].bairro, foneddd: store[0].foneddd, 
-        fonenro: store[0].fonenro, email: store[0].email });
-    } catch (error) {
-      return res.status(400).json({ message: `${error}`})
-    }
-  },
-
   async registro (req, res) {
     const { data,
       tipo, dtaAtual } = req.body;

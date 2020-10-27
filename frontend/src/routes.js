@@ -8,6 +8,7 @@ import ProfileJuridica from './pages/ProfileJuridica/ProfileJuridica';
 import ProfileFisica from './pages/ProfileFisica/ProfileFisica';
 import Products from './pages/Products/Products';
 import NewProducts from './pages/NewProducts/NewProducts';
+import ProfileStore from './pages/ProfileStore/ProfileStore';
 
 const PrivateRoute = ({ component: Component, ...rest }) =>(
     <Route {...rest} render={props => (
@@ -29,6 +30,7 @@ export default function Routes() {
                 <PrivateRoute path='/profile/f' component={ProfileFisica} />
                 <PrivateRoute exact path='/products' component={Products} />
                 <PrivateRoute exact path='/products/neworedit' component={NewProducts} />
+                <PrivateRoute path='/store' component={ProfileStore} />
             </Switch>
         </BrowserRouter>
     );
